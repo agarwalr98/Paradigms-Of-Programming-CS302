@@ -1,0 +1,96 @@
+﻿Question (1) 
+; P1 
+(+ 4 (call/cc (lambda (cont) 13)))
+Ans - 17
+Here, call/cc is used for capturing the current continuation. Addition to 4 is the expression’s continuation. So, a function is created which will take an argument and apply the continuation on it. So, this can be reduced to,
+        (lambda (v) (+ 4 v)) 
+and value 13 is passed to it.
+
+
+; P2 
+(+ 4 (call/cc (lambda (cont) (cont 10) 13)))
+Ans - 14
+Similar to the above case, addition to 4 is the current continuation. This will be passed as an argument into the lambda function which in turn gives,
+(+ 4 10) 
+= 14.
+
+
+; P3 
+(define foo #f) (+ 4 (call/cc (lambda (cont) (set! foo cont) 13)))
+Ans - 17
+Here, foo is assigned a continuation (addition to 4). And Using this continuation on the value returned by this lambda will give 17.
+
+
+; P4 (in sequence with P3) 
+Ans - 
+(foo 100) 104
+(foo 416) 420
+As discussed in the above case, foo is a continuation of addition to 4. This continuation is applied to the arguments.
+
+
+Question (2)
+Y - Combinator is a point fixed higher order function which takes a non recursive function as an argument. 
+F = λf.λn. if (< n 2) n (+ (f (− n 1)) (f (− n 2))) 
+or
+(define      F  (lambda (f)
+                               (lambda (n) 
+                                (cond ((= n 0) 0)
+                                        ((= n 1 ) 1)
+                                        (else (+ (f (- n1 )) (f (-n 2)))))))
+
+
+Here, F is a non recursive function.
+We will take this F as an input to Y  -combinator so, we can define,
+( (Y F) n ) => (Y (F (f n) ) ) 
+(Y (F (f n) ) )        = (Y (F (+ (f n-1) (f n-2))))
+                 = (Y (F (f n-1) ) ) + (Y (F (f n-2) ) )
+ So, we can represent it as,
+Y F n  =  Y F n-1 + Y F n-2  
+And (Y f 0) = (Y f 1)  = 1.
+This mathematical equation is similar to the Fibonacci equation. So, it is proved that  ( (Y F)n)
+will correctly compute the Fibonacci number.
+
+
+Question(3)
+data List a = Nil | Snoc (List a) a
+
+
+scar :: List a -> Integer
+scar Snoc Nil b = b
+scar Snoc (List a) b = scar (List a)
+Assumption: scar of nil will give an error
+
+
+
+
+helper  ::  List  a  ->  List  a
+helper  (Snoc  Nil   b)  =  Nil
+helper  (Snoc  a  b)  =  Snoc  (helper a)  b
+scdr :: List a -> List a
+scdr  a  =  helper a
+
+
+
+
+func  ::  [a]  ->  List  a  ->  List  a
+func [] b = b
+func  m  a  =  func  (tail m)  (Snoc  a (head m))
+toList  ::  [a]  ->  List a 
+toList  a  =  func  a  Nil
+
+
+helpFunc  ::  List  a  ->  [a]  ->  [a]
+helpFunc  Nil  b  =  b
+helpFunc  (Snoc  b  a)  c  = helpFunc b (a : c)
+fromList  ::  List a  ->  [a]
+fromList  a  =  helpFunc  a  []
+
+
+Question (4) 
+We will use alloc(a,o1) as a=o1. i.e. we will assign the object to the variable irrespective of its old value. I.e. We will only store the last state of the variable so, only the last object will escape.
+Note: This is not implementable in prolog because it does not support assignments (mutation).
+Also, these assignments have to be executed in order.
+So, the Assumption is that Assignments can be executed in order.
+
+
+Question (5) “Done”

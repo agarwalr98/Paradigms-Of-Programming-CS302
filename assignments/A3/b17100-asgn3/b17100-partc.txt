@@ -1,0 +1,17 @@
+﻿Idea/Issues: If a variable is either declared as lazy or dynamic then there will not be any issues as both the cases can be handled as usual.
+The point of concern is when a variable is declared as both - dynamic and lazy.
+Case 1: If a lazy variable is declared as dynamic in another function.
+This case can also be handled by replacing a lazy variable as thunk and rest will be handled as usual just like a dynamic-interpreter except that lazy variable will be forced when required.
+Case 2: If a dynamically declared variable is declared as a lazy variable in another function.
+In this case, if a dynamic variable does not have binding in the caller’s env then, an error ‘Unbound variable will be passed as an argument for a lazy variable to another function.
+This could lead to an error/issue.
+
+
+We can merge A and B in the below-mentioned steps:-
+1. Combine the macros for ‘dynamic, ‘dynamic-ref, and ‘lazy.
+2. Add all the functions declared in lazy-interpreter into the dynamic-interpreter which are not already existed in dynamic-interpreter like check-lazy etc.
+3. Do not evaluate the arguments while sending them into ‘myapply procedure (i.e. send arguments directly).
+4. Arguments will be evaluated in ‘myapply function.
+3. While evaluating the arguments, create thunks only for ‘lazy variables.
+4. Create bindings of the non-dynamic variables only. Make sure to remove the word ‘lazy from a lazily declared variable. (This will be done by combining two functions).
+5. Add a condition in ‘myeval to evaluate the thunk by forcing it in the env.

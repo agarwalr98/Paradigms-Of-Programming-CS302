@@ -1,0 +1,152 @@
+﻿Answer - 1 
+John Backus, an American computer scientist gave two major and most important technical contributions to the computer field - FORTRAN, first high-level language for scientific computation, and BNF. 
+He won the 1977 ACM award for his great contributions. 
+Von Neumann Computer was designed several years ago by a scientist Von. It was considered an elegant and unifying idea that simplified and solved many engineering problems existed then. This computer consists of three parts - CPU, a store, and Von Neumann bottleneck (a bottleneck to transmit words between CPU and store (memory )).
+Conventional programming languages are basically high level, complex versions of the von Neumann computer. Each successive language incorporates, with a little cleaning up, all the features of its predecessors plus a few more. Each new language claims new features, such as strong typing or structured control statements, but only few of them make programming much simpler and may reduce the cost to learn it.
+
+John Hughes has a great contribution to the programming language community, he is famous for his role behind the Haskell programming language. He explained the role of functional programming in the real-world by a paper ‘ Why functional programming matters ‘.
+Large and more complex software requires an easy way to debug and write. They should also be reused to reduce the efforts and future programming costs. In order to make these happen, software should be well structured and modularised. 
+Since conventional programming languages do not support modularised programs. (In other words, they place conceptualize limits on the way programs/problems are modularised). Here, functional programming plays an important role to push these limits back. 
+Features of functional programming:
+1. Higher-order functions 
+2. Pure functions (mathematical function)
+3. Referential transparency 
+4. Lazy evaluations
+
+These features can greatly contribute to modularity and that is why functional programming languages are vitally important to the real-world. 
+
+
+Functional programming is fundamentally a simple idea. The first sentence that came into my mind when someone talks about functional programming is “Forget EveryThing That We Know about programming” or even forget Everything that we think we know about programming. 
+Ordinary programs consist of variables (names) to which we assign some values and they help us in computing some results. They also consist of full of iterations, conditional logic, procedures, and subroutines, etc. In Object-oriented programming, we used to talk about classes, objects inheritance, and many more. 
+Should we really forget everything that we know ? Answer - No.
+Functional programming is a refactoring of everything that we know about programming. (We may need to know about data structures, procedures, and iterations. Functional programming also supports “Reusability of code”.
+A mathematical function is a relationship between two sets - Input, and output. These functions always give the same output on getting the same inputs. 
+Procedures defined in functional programming are mathematical functions that have no side effects (No external modification like Writing a file, deleting a file, updating values of data structures ). Closures are used in functional programs to bind the variables to a particular environment/scope.
+Functional programming supports concurrency due to default property (immutability) which gives us a guarantee for deterministic execution. One thread cannot change the values stored in some data structures. So it would remain the same for other threads also.
+
+
+Answer - 2
+Von Neumann bottleneck is a connecting tube that can transmit a single word between the CPU (central processing unit) and store (memory) in the von Neumann computer. It limits the throughput or performance caused by this computer. The word which has been transmitted by bottleneck replace the old words stored in memory. i.e. Changes the values /states of locations in the store. Thus, in this way,  it is related to imperative programming where states are maintained by local state variables.
+
+
+Answer - 3
+Functional programming is  programming that behaves like mathematical functions (same output for same input values ) and does not maintain any states (No mutation). 
+We evaluate expressions in functional programming by composing some procedures(pure functions) and return the value of it. 
+All the data structures in functional programming are immutable i.e. can’t change or update them. 
+
+Answer - 4
+A Persistent data structure is a structure that always preserves the previous version of itself when it is modified. They are immutable data structures due to not in-place updates. 
+
+Someone wants to include them in functional programming language because they support immutability. i.e. when we use persistent data structures (immutable data objects), we get the same output for every call to a function with the same inputs. And Hence, this makes procedures to behave like mathematical functions in the functional programming language with no side effects.
+
+
+Answer - 5
+QuickSort ALGORITHM:
+
+Base language: C++
+#include <iostream>
+#include <vector>
+#include <bits/stdc++.h>
+using namespace std;
+class QuickSort{
+   public:
+   int partition(vector <int > &vect, int low, int high)
+   {
+       int pivot = vect[high ];
+       int i = low;
+       for (int j = low;j<=high- 1  ;j++)
+       {
+           if (vect[j] < pivot)
+           {
+               int temp =vect[i];
+               vect[i]=vect[j];
+               vect[j] =  temp;
+               i++ ;
+           }
+       }
+       int temp =vect[i];
+       vect[i]=vect[high];
+       vect[ high] =  temp;
+       return i;
+   }
+
+
+   vector <int >quicksort(vector <int > vect, int low , int high)
+   {
+       if (low <high)
+       {
+           int pivot_index = this->partition(vect, low, high);
+
+
+           vect = this->quicksort(vect, low, pivot_index-1);
+           vect = this ->quicksort(vect, pivot_index+1 , high);
+       }
+       return vect;
+   }
+};
+
+
+int main()
+{
+   int n;
+
+
+   cout<<"Enter n"<<endl;
+   cin >>n;
+   vector <int > vect(n);
+   for(int i=0;i<n;i++)
+       cin >>vect[i];
+  
+   cout<<"Input vector: "<<endl;
+   for(int i=0;i<n;i++)
+       cout << vect[i]<<" ";
+   QuickSort object = QuickSort();
+   vector <int > vect1 =object.quicksort(vect, 0 , n-1);
+  
+   cout<<endl  << "Sorted: "<<endl;
+   for(int i=0;i<n;i++)
+       cout<<vect1[i] <<" ";
+}
+
+
+Mandatory language: Scheme
+
+#lang sicp
+; Select the first element as the pivot
+(define (quicksort input_list)
+  ;list with elements less than pivot elem
+  (define (partition-l list pivot)
+    (if (null? list) '()
+         (if (<=   (car list) pivot)
+             (cons (car list) (partition-l (cdr list) pivot))
+             (partition-l (cdr list)  pivot))))
+  
+   ;list with elements > than pivot elem.
+  (define (partition-r list pivot)
+    (if (null? list) '()
+         (if (> (car list) pivot)
+             (cons (car list) (partition-r (cdr list) pivot))
+             (partition-r (cdr list)  pivot))))
+
+
+  (define (func)
+  (cond ((null? input_list )
+        input_list)
+  (else
+      (let ((pivot (car input_list)))
+        (append
+          (quicksort 
+            (partition-l (cdr input_list) pivot )) 
+          (list pivot) ; Add the pivot in the middle
+          (quicksort
+            (partition-r (cdr input_list) pivot)))))))
+  (func))
+
+
+Answer - 6.
+If the expression ‘e’ can also be expressed in some other way/ ways using a different syntax in programming language p. i.e. it is not increasing the  expressive power of p. 
+So, it is said to be syntactic sugar. 
+Add structures, operator overloading, templates & unions, and pointers in Java programming language.
+Application:
+1. It will make users encapsulate these C++ features in their Java programs.
+2. It will make java a stronger object oriented programming language.

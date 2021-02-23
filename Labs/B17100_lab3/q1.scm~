@@ -1,0 +1,11 @@
+#lang sicp
+;Q1: Solutions
+(define (make-accumulator sum)
+  (lambda (value)
+    (set! sum  (+ sum value)) sum))
+(define A (make-accumulator 5))
+(define B (make-accumulator 10))
+(A 10)
+(B 10)
+(A 10)
+
